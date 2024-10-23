@@ -13,7 +13,8 @@ class MenuController extends Controller
      */
     public function index()
     {
-        //
+        $menus = Menu::all();
+        return $menus;
     }
 
     /**
@@ -22,14 +23,24 @@ class MenuController extends Controller
     public function create()
     {
         //
-    }
+
+    } 
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreMenuRequest $request)
     {
-        //
+        $menu = new Menu;
+        $menu->name = $request->name;
+        $menu->price = $request->price;
+        $menu->description = $request->description;
+        $menu->category_id = $request->category_id;
+        $menu->offers = $request->offers;
+        $menu->allergens = $request->allergens;
+       
+        $menu->save();
+        return $menu;
     }
 
     /**
@@ -53,7 +64,17 @@ class MenuController extends Controller
      */
     public function update(UpdateMenuRequest $request, Menu $menu)
     {
-        //
+        $menu = Menu::find($request->id);
+        $menu->name = $request->name;
+        $menu->price = $request->price;
+        $menu->description = $request->description;
+        $menu->category_id = $request->category_id;
+        $menu->offers = $request->offers;
+        $menu->allergens = $request->allergens;
+       
+        $menu->save();
+
+        return $menu;
     }
 
     /**

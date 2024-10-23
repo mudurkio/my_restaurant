@@ -29,7 +29,15 @@ class PaymentController extends Controller
      */
     public function store(StorePaymentRequest $request)
     {
-        //
+        $payment = new Payment;
+        $payment->order_id = $request->order_id;
+        $payment->payment_type = $request->payment_type;
+        $payment->amount = $request->amount;
+        $payment->user_id = $request->user_id;
+        $payment->payment_status = $request->payment_status;
+        $payment->save();
+
+        return $payment;
     }
 
     /**
@@ -53,7 +61,13 @@ class PaymentController extends Controller
      */
     public function update(UpdatePaymentRequest $request, Payment $payment)
     {
-        //
+        $payment = Payment::find($request->id);
+        $payment->order_id = $request->order_id;
+        $payment->payment_type = $request->payment_type;
+        $payment->amount = $request->amount;
+        $payment->user_id = $request->user_id;
+        $payment->payment_status = $request->payment_status;
+        $payment->save();
     }
 
     /**
