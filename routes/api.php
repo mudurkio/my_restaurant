@@ -16,12 +16,15 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::middleware(['auth:sanctum'])->group(function () {
+// Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResources([
         'categories' => CategoryController::class,
         'menus' => MenuController::class,
         'orders' => OrdersController::class,
         'payments' => PaymentController::class,
     ]);
-});
+
+Route::get('/getOrderDetails/{id}', [OrdersController::class,'getOrderDetails']);
+
+// });
 

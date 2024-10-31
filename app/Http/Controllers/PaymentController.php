@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\User;
+use App\Models\Orders;
+use App\Notifications\SendPaymentEmail;
 use App\Http\Requests\StorePaymentRequest;
 use App\Http\Requests\UpdatePaymentRequest;
 
@@ -36,6 +39,15 @@ class PaymentController extends Controller
         $payment->user_id = $request->user_id;
         $payment->payment_status = $request->payment_status;
         $payment->save();
+
+        //update order status
+        $order = Orders::where('id', $request->order_id)->first();
+        $order->order_status = 'Preparing';
+        $order->save();
+
+        //send mail:
+        $user = User::find($request->user_id);
+        $user->notify(new SendPaymentEmail($user, $payment));
 
         return $payment;
     }
